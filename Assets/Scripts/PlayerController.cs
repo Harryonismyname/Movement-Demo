@@ -14,25 +14,32 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        float _yRot = Input.GetAxisRaw("Mouse X");
-        Vector3 _rotation = new Vector3(0f, _yRot, 0f) * lookSensitivity;
-        Rotate(_rotation);
+        if (!gameManager.isPaused)
+        {
+            movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            float _yRot = Input.GetAxisRaw("Mouse X");
+            Vector3 _rotation = new Vector3(0f, _yRot, 0f) * lookSensitivity;
+            Rotate(_rotation);
+        }
     }
     void FixedUpdate()
     {
-        if(Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+        if (!gameManager.isPaused)
         {
-            AnalogueMovement(movement);
-        }
-        if (Input.GetButtonDown("Jump"))
-        {
-            rb.AddForce(new Vector3(0f, jumpForce, 0f), ForceMode.Impulse);
+            if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+            {
+                AnalogueMovement(movement);
+            }
+            if (Input.GetButtonDown("Jump"))
+            {
+                rb.AddForce(new Vector3(0f, jumpForce, 0f), ForceMode.Impulse);
+            }
         }
     }
     void Rotate(Vector3 _rotation)
