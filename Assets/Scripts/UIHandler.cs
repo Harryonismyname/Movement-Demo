@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class UIHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private PauseMenuController pauseMenuController;
+    [SerializeField] private GameManager gameManager;
+    [SerializeField] private HUDUpdater hUDUpdater;
+    private void Start()
     {
-        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        pauseMenuController = GameObject.Find("PauseMenuController").GetComponent<PauseMenuController>();
+        hUDUpdater = GameObject.Find("HUDUpdater").GetComponent<HUDUpdater>();
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        hUDUpdater.DisplayCameraType(gameManager.cameraType);
+        hUDUpdater.DisplayMovementType(gameManager.movementType);
+        if (gameManager.isPaused)
+        {
+            pauseMenuController.ActivateMenu();
+        }
+        else if (!gameManager.isPaused)
+        {
+            pauseMenuController.DeactivateMenu();   
+        }
     }
 }
