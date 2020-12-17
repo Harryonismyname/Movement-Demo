@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     }
     public void SetCameraType(string camType)
     {
+
         cameraType = camType;
     }
 }
